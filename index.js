@@ -1,4 +1,6 @@
 const express = require('express');
+const productAPI = require('./apis/product');
+const initProducts = require('./db/init_data/products');
 const app = express();
 // connect to mongodb db
 require('./db/database');
@@ -37,8 +39,11 @@ app.post('/register', (req, res) => {
     }
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     const { username, password } = req.body;
+
+    // don't know what is resolve but it still can run ??? magic =))
+    await new Promise(resolve => {setTimeout(resolve, 2000)});
 
     console.log(`username: ${username}`);
 
@@ -47,15 +52,15 @@ app.post('/login', (req, res) => {
             access_token: 'token123',
             token_type: 'bearer',
             customer_id: 'id1'
-        })
+        });
     } else {
-        res.status(200).send({
-            access_token: VALID_TOKEN,
-            token_type: 'bearer',
-            customer_id: CUSTOMER_ID
-        })
+        res.status(501).send('login failed');
     }
 });
+
+initProducts();
+
+productAPI(app);
 
 app.listen(
     PORT,
