@@ -66,15 +66,21 @@ const mockProducts = [
     },
   ];
 
+let index = 0;
+
 const initProducts = async function() {
     // await Product.deleteMany({});
     mockProducts.forEach(async (item, index) => {
         const dbProduct = await Product.find({name: item.name});
+        const productModel = {
+          id: index++,
+          ...item
+        };
 
         if (!dbProduct || utils.isObjectEmpty(dbProduct)) {
-            Product.create(item, (err, product) => {
+            Product.create(productModel, (err, product) => {
                 if (err) {
-                    console.log(`Alan - insert ini data failed: ${err}`);
+                    console.log(`Alan - insert initial data failed: ${err}`);
                 }
             });
         }

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var productSchema = new mongoose.Schema({
-    id: mongoose.Schema.Types.ObjectId,
+    id: Number,
     name: String,
     price: Number,
     discount: Number,
