@@ -1,5 +1,5 @@
-const utils = require('../common/util');
-const Product = require('../db/models/product.model');
+const utils = require('../../common/util');
+const Product = require('./product.model');
 
 const findProductById = (id, res) => {
     Product.findOne({id: id}, (err, product) => {

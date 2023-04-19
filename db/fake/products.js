@@ -1,4 +1,4 @@
-const Product = require('../models/product.model');
+const Product = require('../../features/product/product.model');
 const utils = require('../../common/util');
 
 const mockProducts = [
@@ -68,7 +68,7 @@ const mockProducts = [
 
 let index = 0;
 
-const initProducts = async function() {
+const fakeProducts = async function() {
     // await Product.deleteMany({});
     mockProducts.forEach(async (item, index) => {
         const dbProduct = await Product.find({name: item.name});
@@ -87,4 +87,4 @@ const initProducts = async function() {
     });
 };
 
-module.exports = initProducts;
+module.exports = fakeProducts;
