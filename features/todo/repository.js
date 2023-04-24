@@ -1,7 +1,7 @@
 const Todo = require('./todo.model');
 
 const getList = async () => {
-    return await Todo.findAll();
+    return await Todo.find();
 }
 
 const findTodoById = async (id) => {

@@ -10,25 +10,29 @@ const randomId = () => {
 
 const todoAPI = (app) => {
     app.get('/todos', async (req, res) => {
-
-        const data = [
-            {
-                id: randomId(),
-                name: 'Learning Redux Toolkit',
-                isFinished: false,
-            },{
-                id: randomId(),
-                name: 'Presenting',
-                isFinished: false,
-            }
-        ];
-
-        const todoInDb = await repo.getList();
-        console.log('Alan - todoInDb ', JSON.stringify(todoInDb));
-
-        res.status(200).send({
-            data
-        });
+        try {
+            const data = [
+                {
+                    id: randomId(),
+                    name: 'Learning Redux Toolkit',
+                    done: false,
+                },{
+                    id: randomId(),
+                    name: 'Presenting',
+                    done: false,
+                }
+            ];
+    
+            const todoInDb = await repo.getList();
+            console.log('Alan - todoInDb ', JSON.stringify(todoInDb));
+    
+            res.status(200).send(data);
+        } catch (e) {
+            console.log('the API get list of todos - catch an exception ', e)
+            res.status(500).send({
+                message: `exception ${e}`
+            })
+        }
     })
 
     app.post('/todos/create', async (req, res) => {
