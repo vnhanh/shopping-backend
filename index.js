@@ -1,5 +1,8 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
 const app = express();
+app.use(jsonParser);
 const productAPI = require('./features/product/api');
 const fakeProducts = require('./db/fake/products');
 const todoAPI = require('./features/todo/api');

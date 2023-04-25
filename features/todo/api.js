@@ -10,23 +10,11 @@ const randomId = () => {
 
 const todoAPI = (app) => {
     app.get('/todos', async (req, res) => {
-        try {
-            const data = [
-                {
-                    id: randomId(),
-                    name: 'Learning Redux Toolkit',
-                    done: false,
-                },{
-                    id: randomId(),
-                    name: 'Presenting',
-                    done: false,
-                }
-            ];
-    
+        try {  
             const todoInDb = await repo.getList();
             console.log('Alan - todoInDb ', JSON.stringify(todoInDb));
     
-            res.status(200).send(data);
+            res.status(200).send(todoInDb);
         } catch (e) {
             console.log('the API get list of todos - catch an exception ', e)
             res.status(500).send({
@@ -36,15 +24,45 @@ const todoAPI = (app) => {
     })
 
     app.post('/todos/create', async (req, res) => {
-        const {data} = req.body;
-        const result = await repo.addTodo(data);
-
-        console.log('Alan - create TODO - result ', JSON.stringify(result));
-
-        res.status(200).send({
-            success: true
-        });
+        try {
+            const {data} = req.body;
+            const result = await repo.addTodo(data);
+    
+            console.log('Alan - create TODO - result ', JSON.stringify(result));
+    
+            res.status(200).send({
+                success: true
+            });
+        } catch (e) {
+            console.log('caught exception API create ToDo', e)
+            res.status(500).send({
+                message: 'Internal Error'
+            })
+        }
     });
+
+    app.delete('/todos', async (req,res) => {
+        try {
+            const { ids } = req.body;
+            console.log('ALan - call API delete TODO ', ids)
+            repo.deleteTodos(ids)
+                .then(deletedIds => {
+                    res.status(200).send({
+                        deletedIds
+                    })
+                })
+                .catch(() => {
+                    res.status(500).send({
+                        message: 'Internal Error'
+                    })
+                })
+        } catch (e) {
+            console.log('caught exception API delete ToDo', e)
+            res.status(500).send({
+                message: 'Internal Error'
+            })
+        }
+    })
 };
 
 module.exports = todoAPI;
