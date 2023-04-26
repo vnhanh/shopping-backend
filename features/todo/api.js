@@ -41,6 +41,24 @@ const todoAPI = (app) => {
         }
     });
 
+    app.put('/todos', async (req, res) => {
+        try {
+            const { data } = req.body;
+            const result = await repo.updateTodo(data);
+    
+            console.log('Alan - update TODO - result ', JSON.stringify(result));
+    
+            res.status(200).send({
+                success: true
+            });
+        } catch (e) {
+            console.log('caught exception API update ToDo', e)
+            res.status(500).send({
+                message: 'Internal Error'
+            })
+        }
+    });
+
     app.delete('/todos', async (req,res) => {
         try {
             const { ids } = req.body;

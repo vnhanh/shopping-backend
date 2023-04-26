@@ -12,6 +12,11 @@ const addTodo = async (data) => {
     return Todo.create(data)
 };
 
+const updateTodo = async (data) => {
+    Todo.updateMany(data)
+    return Todo.create(data)
+};
+
 const deleteTodos = async (ids) =>  new Promise(async (resolve, reject) =>  {
     try {
         const deletedIds = []
@@ -48,7 +53,8 @@ const repository = {
     getList,
     addTodo,
     findTodoById,
-    deleteTodos
+    updateTodo,
+    deleteTodos,
 };
 
 module.exports = repository;
